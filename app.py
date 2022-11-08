@@ -34,7 +34,8 @@ class SearchObject(Resource):
         # 0단계: 바코드 검사
         if len(str(barcode)) != 13:
             return jsonify({
-                "message": "유효하지 않은 바코드입니다."
+                "message": "유효하지 않은 바코드입니다.",
+                "code": '-1',
             })
 
         # 1단계: 상품 검색
@@ -43,7 +44,8 @@ class SearchObject(Resource):
         if r['code'] == '2000':
             print(r)
             return jsonify({
-                "message": "유효하지 않은 바코드입니다."
+                "message": "유효하지 않은 바코드입니다.",
+                "code": '-1',
             })
         object_name = r['baseItems'][0]['value']
         object_image = r['images'][0]
@@ -87,6 +89,7 @@ class SearchObject(Resource):
                 a=list(_history_price.keys())
                 _history_price[a[i]] = history_price[0][i] + '원'
         return jsonify({
+            "name": object_name,
             "now_price": now_price,
             "history_price": _history_price,
             "image": object_image,
